@@ -1,26 +1,50 @@
 #include <iostream>
+#include <vector>
 
-void verifyWallet(int totalWallet, int totalProduct) {
-    if (totalWallet < totalProduct) {
-        int difference = totalProduct - totalWallet;
+double calculateAverage(std::vector<double>& allNotes) {
+    double avg = 0;
+    double sum = 0;
+    for (int i = 0; i < allNotes.size(); i++) {
+        sum += allNotes[i];
+    }
+    avg = sum / allNotes.size();
 
-        std::cout << "You are " << difference << " francs short." << std::endl;
-    }
-    else
-    {
-        int difference = totalWallet - totalProduct;
-        std::cout << "You can buy it" << std::endl;
-        std::cout << difference << ".- remaining in your Wallet";
-    }
+    return avg;
 }
 
-int main() {
-    int broWallet = 5;
-    int myWallet = 10;
-	int totalWallet = broWallet + myWallet;
-	int productPrice = 7;
+double verifyNote() {
+    double note = 0;
+    std::cout << "Enter your note : " << std::endl;
+    std::cin >> note;
+    while (note < 1 || note > 6) {
+        std::cout << "Your note must be greater than 1 and lower than 6" << std::endl;
+        std::cout << "Enter your note again : " << std::endl;
+        std::cin >> note;
+    }
+    return note;
+}
 
-    verifyWallet(totalWallet, productPrice);
+
+int main() {
+    std::vector<double> notes;
+    double average = 0;
+
+    for (int i = 0; i < 5; i++) {
+        double note;
+        note = verifyNote();
+        notes.push_back(note);
+    }
+
+    average = calculateAverage(notes);
+
+    std::cout << "Your average is : " << average << std::endl;
+
+    if (average >= 4) {
+        std::cout << "Pass" << std::endl;
+    }
+    else {
+        std::cout << "Fail" << std::endl;
+    }
 
     return 0;
 }
