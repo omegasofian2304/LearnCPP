@@ -1,35 +1,53 @@
 #include <iostream>
 #include <vector>
 
+struct Node {
+    int value;
+    Node* next;
+};
+
 int main() {
-    std::vector<int> numbers(10000);
-    for (int i = 0; i < 10000; i++) {
-        numbers[i] = i;
-    }
-    int numberToFind = 7285;
-    int pivot = (numbers.size() / 2);
-    int max = numbers.size();
-    int min = 0;
-    uint8_t step = 0;
+    int count = 0;
 
-    while (numbers[pivot] != numberToFind) {
-        if (numbers[pivot] < numberToFind) {
-            min = pivot + 1;
-            pivot = (min + max) / 2;
-        }
-        else if (numbers[pivot] > numberToFind) {
-            max = pivot - 1;
-            pivot = (min + max) / 2;
-        }
+    Node n1;
+    n1.value = 10;
+    n1.next = nullptr;
 
-        if (min > max) 
-            return 0;
-        std::cout << "min :   " << min << std::endl;
-        std::cout << "max:    " << max << std::endl;
-        std::cout << "pivot : " << pivot << std::endl;
-        step++;
+    Node n2;
+    n2.value = 15;
+    n2.next = nullptr;
+
+    Node n3;
+    n3.value = 30;
+    n3.next = nullptr;
+
+
+    Node n4;
+    n4.value = 46;
+    n4.next = nullptr;
+
+    Node n5;
+    n5.value = 65;
+    n5.next = nullptr;
+
+    n1.next = &n2;
+
+    n2.next = &n3;
+
+    n3.next = &n4;
+
+    n4.next = &n5;
+    
+    Node* current = &n1;
+
+
+    while (current != nullptr) {
+        std::cout << "Value : " << current->value << std::endl;
+        current = current->next;
+        count++;
     }
-    std::cout << "step : " << (int)step << std::endl;
-    std::cout << "Number found, the position is : " << pivot << std::endl;
+
+    std::cout << "Total nodes : " << count << std::endl;
+
     return 0;
 }
