@@ -1,64 +1,93 @@
 #include <iostream>
-#include <vector>
 
 struct Node {
     int value;
-    Node* next;
+    Node* left;
+    Node* right;
 };
 
-void addNode(Node*& head, int value) {
-    Node* n = new Node();
-
-    n->value = value;
-    n->next = nullptr;
-
-    if (head == nullptr) {
-        head = n;
+void insertNode(Node*& root, int value) {
+    if (root == nullptr) {
+        Node* n = new Node;
+        n->value = value;
+        n->left = nullptr;
+        n->right = nullptr;
+        root = n;
         return;
     }
 
-    Node* current = head;
-    while (current->next != nullptr) {
-        current = current->next;
+    Node* temp = root;
+    while (true) {
+        if (value > temp->value)
+        {
+            if (temp->right == nullptr) {
+                Node* n = new Node;
+                n->value = value;
+                n->left = nullptr;
+                n->right = nullptr;
+                temp->right = n;
+                return;
+            }
+            temp = temp->right;
+        }
+        else if (value < temp->value)
+        {
+            if (temp->left == nullptr) {
+                Node* n = new Node;
+                n->value = value;
+                n->left = nullptr;
+                n->right = nullptr;
+                temp->left = n;
+                return;
+            }
+            temp = temp->left;
+        }
+        else if (value == temp->value) {
+            return;
+        }
     }
-    current->next = n;
 }
 
-void printList(Node*& head) {
-    Node* current = head;
-    while (current != nullptr) {
-        std::cout << "Value : " << current->value << std::endl;
-        current = current->next;
-    }
+void printInOrder(Node* root) {
+    if (root == nullptr) return;
+
+    printInOrder(root->left);
+    std::cout << root->value << std::endl;
+    printInOrder(root->right);
 }
 
-void deleteList(Node*& head) {
-    std::cout << "------" << std::endl;
-    Node* next = head->next;
-    while (head->next != nullptr)
-    {
-        next = head->next;
-        delete head;
-        head = next;
+void search(Node* root, int value) {
+
+    if (root == nullptr) {
+        std::cout << "Not found!" << std::endl;
+        return;
     }
-    delete head;
-    head = nullptr;
-    std::cout << "------" << std::endl;
+    else if (root->value == value) {
+        std::cout << "Found !";
+        return;
+    }
+
+    else if (value > root->value) {
+        search(root->right, value);
+    }
+    else if (value < root->value) {
+        search(root->left, value);
+    }
 }
 
 int main() {
-    Node* head = nullptr;
 
-    addNode(head, 10);
-    addNode(head, 11);
-    addNode(head, 13);
-    addNode(head, 15);
+    Node* root = nullptr;
+    insertNode(root, 30);
+    insertNode(root, 45);
+    insertNode(root, 23);
+    insertNode(root, 70);
+    insertNode(root, 32);
+    insertNode(root, 156);
+    insertNode(root, 21);
 
-    printList(head);
+    printInOrder(root);
 
-    deleteList(head);
-
-    printList(head);
-
+    search(root, 21);
     return 0;
 }
