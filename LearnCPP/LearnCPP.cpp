@@ -6,48 +6,59 @@ struct Node {
     Node* next;
 };
 
-int main() {
-    int count = 0;
+void addNode(Node*& head, int value) {
+    Node* n = new Node();
 
-    Node n1;
-    n1.value = 10;
-    n1.next = nullptr;
+    n->value = value;
+    n->next = nullptr;
 
-    Node n2;
-    n2.value = 15;
-    n2.next = nullptr;
+    if (head == nullptr) {
+        head = n;
+        return;
+    }
 
-    Node n3;
-    n3.value = 30;
-    n3.next = nullptr;
+    Node* current = head;
+    while (current->next != nullptr) {
+        current = current->next;
+    }
+    current->next = n;
+}
 
-
-    Node n4;
-    n4.value = 46;
-    n4.next = nullptr;
-
-    Node n5;
-    n5.value = 65;
-    n5.next = nullptr;
-
-    n1.next = &n2;
-
-    n2.next = &n3;
-
-    n3.next = &n4;
-
-    n4.next = &n5;
-    
-    Node* current = &n1;
-
-
+void printList(Node*& head) {
+    Node* current = head;
     while (current != nullptr) {
         std::cout << "Value : " << current->value << std::endl;
         current = current->next;
-        count++;
     }
+}
 
-    std::cout << "Total nodes : " << count << std::endl;
+void deleteList(Node*& head) {
+    std::cout << "------" << std::endl;
+    Node* next = head->next;
+    while (head->next != nullptr)
+    {
+        next = head->next;
+        delete head;
+        head = next;
+    }
+    delete head;
+    head = nullptr;
+    std::cout << "------" << std::endl;
+}
+
+int main() {
+    Node* head = nullptr;
+
+    addNode(head, 10);
+    addNode(head, 11);
+    addNode(head, 13);
+    addNode(head, 15);
+
+    printList(head);
+
+    deleteList(head);
+
+    printList(head);
 
     return 0;
 }
